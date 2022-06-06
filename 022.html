@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div><span id="myun">83.25</span></div>
+    <div><span id="target"></span></div>
+    <div><span id="sup">35</span></div>
+    <div><span id="target2"></span></div>
+
+
+    <script>
+        //83.25는 제곱미터다. 11번째줄에 몇평인지 출력
+        //35는 섭씨온도다. 13번째줄에 화씨 온도를 출력
+
+        let input1 = document.querySelector('#myun');                       // let input1 = document.querySelector('#myun').innerHTML ; 
+        let input2 = parseInt(input1.innerHTML);
+        let pyeong = input2 / 3.3 ;
+
+        document.querySelector('#target').innerHTML = pyeong + "평";
+
+        let input3 = document.querySelector('#sup');
+        let input4 = parseInt(input3.innerHTML);
+        let hwa = 9 / 5 * input4 + 32 ;
+
+        document.querySelector('#target2').innerHTML = hwa + "도";
+
+
+
+    </script>
+</body>
+</html>
