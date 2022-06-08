@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html 요소도 객체다</title>
+</head>
+<body>
+    <div id="hello" class="red" data-no="11">우리나라 좋은나라</div>
+
+    <script>
+        // dom : js 가 html 에 접근하기 위한 표준
+        //       js 가 선택자를 사용하면 html 요소를 객체로 바꿔준다.
+
+        const div = document.querySelector(`#hello`);
+
+        console.log(div);
+        console.log(div.id);
+
+        console.log(div.style.color);
+
+
+    
+    </script>
+</body>
+</html>

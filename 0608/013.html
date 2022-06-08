@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="value">
+    <button onclick="double()">제곱하기</button>
+    <div> 제곱값 : <span id="target"></span></div>
+    <script>
+        //  숫자를 입력하고 버튼을 클릭하면 제곱해서 출력하기
+
+        function double() {
+            const value = document.querySelector('#value').value;
+            const double = value * value;
+            document.querySelector('#target').innerHTML = double;
+            document.querySelector('#value').value = null;
+        }
+    </script>
+</body>
+
+</html>
