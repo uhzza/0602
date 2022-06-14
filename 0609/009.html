@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        const ordermenu = [];
+        let index = 0;
+
+        function order() {
+
+            const menu = document.querySelector('#dish').value;
+            ordermenu[index] = menu;
+            index++;
+            console.log(ordermenu);
+        }
+        function order2() {
+            const menu2 = document.querySelector('#dish2').value;
+            ordermenu[index] = menu2;
+            index++;
+            console.log(ordermenu);
+        }
+    </script>
+</head>
+
+<body>
+    <!-- 
+        짜장 짬뽕 볶음밥 select 만들기 
+        탕수육, 깐풍기, 라조기 checkbox 
+
+
+        select 나 checkbox 에서 선택하면 배열에 추가해서 출력하기
+        ex ) [짜장,짬뽕,탕수육]
+     -->
+
+    <select id="dish">
+        <option>짜장</option>
+        <option>짬뽕</option>
+        <option>볶음밥</option>
+
+
+    </select>
+    <button onclick="order()">식사 선택</button>
+    <hr>
+    <select id="dish2">
+        <option value="탕수육">탕수육</option>
+        <option value="깐풍기">깐풍기</option>
+        <option value="라조기">라조기</option>
+    </select>
+    <button onclick="order2()">요리 선택</button>
+
+
+</body>
+
+</html>

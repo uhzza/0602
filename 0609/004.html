@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #all {
+            text-align: center;
+        }
+    </style>
+    <script>
+        function image() {
+            document.querySelector('#target').src = "http://www.w3schools.com/js/pic_bulboff.gif"
+        }
+
+        function bulbon() {
+            document.querySelector('#target').src = "http://www.w3schools.com/js/pic_bulbon.gif"
+        }
+
+        function bulboff() {
+            document.querySelector('#target').src = "http://www.w3schools.com/js/pic_bulboff.gif"
+        }
+    </script>
+</head>
+
+<body onload="image()">
+    <div id="all">
+        <img id="target">
+        <br>
+        <button onclick="bulbon()">
+            불켜기
+        </button>
+        <button onclick="bulboff()">
+            불끄기
+        </button>
+
+
+        
+    </div>
+</body>
+
+</html>

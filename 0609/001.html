@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body onload="init()">
+
+    <div>
+
+    </div>
+    <button onclick="clickHandler()">증가</button>
+
+    <script>
+        const a = 10;                                               // global 영역
+        x = 10 ;
+        function init() {
+            const b = 20 ;
+            y = 20;                                                             //local 영역
+            console.log(a);
+            console.log(b);
+            console.log(x);
+            console.log(y);
+        }
+        function clickHandler() {
+            console.log(a);
+            // console.log(b); // error : 함수의 scope   clickHandler 함수에서는 init 함수가 보이지 않음 
+            console.log(x);
+            console.log(y);
+        }
+    </script>
+</body>
+
+</html>

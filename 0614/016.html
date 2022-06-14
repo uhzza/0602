@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+    <script>
+      const ar = [
+        { kor: 77, eng: 80 },
+        { kor: 75, eng: 70 },
+        { kor: 80, eng: 90 },
+      ];
+      let sum = 0;
+      const $list = $("#list");
+      const $total = $("#total");
+      window.onload = function () {
+        for (const score of ar) {
+          const eng = score.eng;
+          if (eng >= 80) {
+            $(`<li>${eng}</li>`).appendTo(list).css("color", "red");
+          } else {
+            $(`<li>${eng}</li>`).appendTo(list);
+          }
+          sum += eng;
+        }
+        $(`<p>영어 합계 : ${sum} 점</p>`).appendTo(total);
+      };
+    </script>
+  </head>
+  <body>
+    <ul id="list"></ul>
+    <div id="total"></div>
+  </body>
+</html>

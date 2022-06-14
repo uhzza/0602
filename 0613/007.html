@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      window.onload = function () {
+        document.querySelector("#check").onclick = function () {
+          const kor = parseInt(document.querySelector("#kor").value);
+          const eng = parseInt(document.querySelector("#eng").value);
+          alert(kor >= 70 && eng >= 70 ? "통과" : "재시험");
+        };
+      };
+    </script>
+    <title>Document</title>
+  </head>
+  <body>
+    <label for="kor">국어</label>
+    <input type="text" id="kor" placeholder="점수 입력" />
+    <br />
+    <label for="eng">영어</label>
+    <input type="text" id="eng" placeholder="점수 입력" />
+    <button id="check">확인하기</button>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        window.onload = function() {
+            document.querySelector('#btn').onclick = function(){
+                const value = parseInt(document.querySelector('#value').value);
+                document.querySelector('#couple').innerHTML = value % 2 === 0 ? "짝" : "홀";
+                document.querySelector('#zeus').innerHTML = value * value ;
+                document.querySelector('#value').value = "";
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    값 : <input type="text" id="value" placeholder="숫자를 입력하세요!" >
+    <button id="btn">확인!!</button>
+    <br>
+    짝수여부 : <span id="couple"></span> <br>  
+    제곱값 : <span id="zeus"></span> 
+</body>
+</html>

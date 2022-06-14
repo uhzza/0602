@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="value">
+    <button onclick="three()">3배수</button>
+    <button onclick="five()"> 5배수</button>
+
+    <script>
+        function three() {
+            const value = parseInt(document.querySelector('#value').value)
+            alert(value % 3 === 0 ? '3배수' : '3배아님')
+        }
+
+        function five() {
+            const value = parseInt(document.querySelector('#value').value)
+            alert(value % 5 === 0 ? '5배수' : '5배아님')
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 덧셈 뺄셈 곱셈 나눗셈 계산기  -->
+    <div>
+      <input type="text" id="value1" />
+      <select id="pick">
+        <option value="none" disabled selected>선택</option>
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+      <input type="text" id="value2" />
+
+      <button onclick="gogo()">=</button>
+      <input type="text" id="value3" disabled />
+    </div>
+    <script>
+      function gogo() {
+        const value1 = parseInt(document.querySelector("#value1").value);
+        const value2 = parseInt(document.querySelector("#value2").value);
+        const oper = document.querySelector("#pick").value;
+        const result = document.querySelector("#value3");
+
+        let calcResult;
+
+        if (oper === "+") {
+          calcResult = value1 + value2;
+          result.value = calcResult;
+        } else if (oper === "-") {
+          calcResult = value1 - value2;
+          result.value = calcResult;
+        } else if (oper === "*") {
+          calcResult = value1 * value2;
+          result.value = calcResult;
+        } else if (oper === "/") {
+          calcResult = value1 / value2;
+          result.value = calcResult;
+        } else {
+          alert("계산법을 선택하세요!");
+          result.value = "";
+        }
+      }
+    </script>
+  </body>
+</html>

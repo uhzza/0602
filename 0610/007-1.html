@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+        적정체중 이상인지 미만인지 출력하시오
+     -->
+    <h1>키를 입력하세요</h1>
+    <div>
+      <input type="text" id="input" placeholder="키를 입력하세요"/>
+      <input type="text" id="input2" placeholder="몸무게를 입력하세요" />
+      <button onclick="btn()">확인하기</button>
+    </div>
+    <div>적정 체중 : <span id="target"></span></div>
+    <div><h2 id="updown"></h2></div>
+
+    <script>
+      function btn() {
+        const height = document.querySelector("#input").value;
+        const weight = parseInt(height - 105);
+        document.querySelector("#target").innerHTML = weight;
+      const realWeight = document.querySelector('#input2').value
+      if  (realWeight >= weight) {
+          document.querySelector('#updown').innerHTML =  '돼지' ;
+          if ((realWeight - weight) > 10) {
+            document.querySelector('#updown').innerHTML =  '개쌉돼지' ;
+          }
+      } else {
+        document.querySelector('#updown').innerHTML =  '말랑껭이' ;
+      }
+
+    }
+    </script>
+  </body>
+</html>

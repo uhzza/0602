@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>BMI 계산기</h1>
+    <label for="">키</label>
+    <input type="text" id="키" />
+    <label for="체중">체중</label>
+    <input type="text" id="체중" />
+    <button id="bmi">BMI확인</button>
+    <br />
+    <div>BMI 지수 : <span id="bmicheck"></span></div>
+    <div>여부 : <span id="factcheck"></span></div>
+
+    <script>
+      window.onload = function () {
+        document.querySelector("#bmi").onclick = function () {
+          const heightInput = document.querySelector("#키");
+          const weightInput = document.querySelector("#체중");
+
+          const heightFull = parseInt(heightInput.value);
+          const height = heightFull / 100;
+          const weight = parseInt(weightInput.value);
+
+          const bmi = weight / (height * height);
+
+          document.querySelector("#bmicheck").innerHTML = Math.round(bmi);
+          document.querySelector("#factcheck").innerHTML =
+            bmi > 25 === true ? "과체중입니다" : "과체중이 아닙니다";
+        };
+      };
+    </script>
+  </body>
+</html>

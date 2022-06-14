@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        //js 의 위치가 어디여도 상관없다 .
+        //단 2번이상 사용하면 덮어쓴다.
+        window.onload =function() {
+            const input = document.querySelector('#value');
+            const even = document.querySelector('#even');
+            const odd = document.querySelector('#odd');
+
+            even.onclick = function() {
+                const value = parseInt(input.value);
+                const result = value % 2 === 0 ? '짝수' : '짝수아님';
+                alert(result);
+            }
+            odd.oncluck = function() {
+                const value = parseInt(input.value);
+                const result = value % 2 === 0 ? '홀수아님' : '홀수';
+                alert(result);
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="value" />
+    <button id="even">짝수 판정</button>
+    <button id="odd">홀수 판정</button>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        window.onload = function(){
+                const target = $('#target');
+                //요소를 만들때는 $로 시작ㅎㄴ다
+                //$(선택자) -> 요소를 선택 $('p')
+                //$(ㅛ소) -> 요소를 생성 $('<p>') , $('<p>hello</p>')
+
+
+                //부모.append(자식) 결과는 부모
+                //자식.appendTo(부모) 결과는 자식
+
+                $('<p>우리나라 </p>').appendTo(target).css('color','red');
+
+                const menu = "짜장면";
+
+                $(`<p>${menu}</p>`).appendTo(target).css('color','gray');
+                
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="target">
+
+    </div>
+</body>
+</html>

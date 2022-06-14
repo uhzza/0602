@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #page{
+            width : 800px;
+            margin: 0 auto;
+        }
+        #canvas {
+            height: 400px;
+        }
+        input {
+            width : 70%;
+        }
+    </style>
+</head>
+<body onload="changeColor()">
+    <div id="page">
+        <div id="canvas">
+
+        </div>
+        <div>
+          RED  <input type="range" min="0" max="255" id="red" onchange="changeColor()">
+          <span id="red_span"></span>
+        </div>
+        <div>
+            BLUE  <input type="range" min="0" max="255" id="blue" onchange="changeColor()">
+            <span id="blue_span"></span>
+          </div>
+          <div>
+            GREEN  <input type="range" min="0" max="255" id="green" onchange="changeColor()">
+            <span id="green_span"></span>
+          </div>
+    </div>
+</body>
+
+<script>
+    function changeColor() {
+        const canvas = document.querySelector('#canvas');
+        const redInput = document.querySelector('#red');
+        const redSpan = document.querySelector('#red_span');
+        const red = redInput.value;
+        redSpan.innerHTML = red;
+        // canvas.style.backgroundColor = 'rgb(red,0,0)'
+        canvas.style.backgroundColor = `rgb(${red},0,0)`;
+    }
+</script>
+</html>

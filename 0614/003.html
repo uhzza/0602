@@ -1,0 +1,16 @@
+<script>
+    const obj = {
+        func1 : function() {
+            //일반함수
+            console.log("=====")
+            console.log(this);
+        },
+        func2 : () =>{
+            //화살표 함수
+            console.log("#######");
+            console.log(this);
+        }
+    }
+    obj.func1();
+    obj.func2();
+</script>

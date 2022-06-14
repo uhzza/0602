@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="val1" />
+      <select id="pick">
+        <option value="none">선택</option>
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+      <input type="text" id="val2" />
+      <button onclick="gogo()">=</button>
+      <input type="text" id="target" />
+    </div>
+
+    <script>
+      function gogo() {
+        const val1 = parseInt(document.querySelector("#val").value);
+        const val2 = parseInt(document.querySelector("#va2").value);
+        const pick = document.querySelector("#pick").value;
+        const target = document.querySelector("#target").value;
+
+        if (pick === "+") {
+          target = val1 + val2;
+        } else if (pick === "-") {
+          target = val1 - val2;
+        } else if (pick === "*") {
+          target = val1 * val2;
+        } else if (pick === "/") {
+          target = val1 / val2;
+        } else {
+          alert("계산법을 선택하세요!");
+        }
+      }
+    </script>
+  </body>
+</html>
