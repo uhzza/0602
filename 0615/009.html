@@ -1,0 +1,17 @@
+<script>
+  const ar = [77, 66, 88, 99, 100];
+  const br = [100,400,500,1000];
+
+  //평균을 계산하는 함수를 정의하시오
+
+  function avg(value) {
+    let i = 0;
+    for (const number of value) {
+      i += number;
+    }
+    return i / value.length;
+  }
+
+
+  console.log(avg(br));
+</script>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        #page .parent {
+            border: 1px solid #000;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 10px;
+            width: 500px;
+            background-color: bisque;
+        }
+        #page .tel {
+            display :inline;
+        }
+        
+    </style>
+    <title>Document</title>
+    <script>
+        const url = "http://sample.bmaster.kro.kr/contacts?pageno=2&pagesize=12";
+
+        window.onload = function() {
+            $.ajax(url).done(function(x){
+                const contacts = x.contacts;
+                const $page = $('#page');
+                for ( c of contacts) {
+                    const $div = $('<div class="parent">').appendTo($page);
+                    $('<img class="photo">').attr('src',c.photo).appendTo($div);
+                    $('<div class="tel">').text(c.tel).appendTo($div);
+                    $('<div class="name">').text(c.name).appendTo($div);
+                    
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id="page">
+    </div>
+</body>
+</html>

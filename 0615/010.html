@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+    <script>
+      const ar = [
+        { irum: "홍길동", jumsu: 80 },
+        { irum: "전우치", jumsu: 75 },
+      ];
+
+      //점수를 ul 안에 출력하는 함수를 만드시오 .
+      window.onload = function () {
+        function printAr(arr) {
+          const $list = $("#ul");
+          for (const score of ar) {
+            const jumsu = score.jumsu;
+            $(`<li>${jumsu}</li>`).appendTo(list);
+          }
+        }
+      };
+
+      printAr(ar);
+    </script>
+  </head>
+  <body>
+    <ul id="ul"></ul>
+  </body>
+</html>

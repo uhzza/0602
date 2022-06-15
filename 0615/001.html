@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+        const a= 5 ;
+        const b = -10;
+        console.log(Math.abs(a));
+        console.log(Math.abs(b));
+        //객체 : 속성과 메소드의 집합
+        //내장 (bulit-in) 객체 : js가 기본 제공하는 객체
+        //Math 객체 : 수학 함수와 상수를 모아놓은 객체
+
+        //사용자가 넘기는 값을 저장하는 변수 : 매개변수
+        function abs(x) {
+            if (x >= 0) {
+                return x ;
+            } else if (x < 0 ) {
+                x = x * -1;
+            // x *= -1;    
+                return x ;
+            // return -x ;
+            }
+            // 함수의 결과값 : 리턴값
+        }
+
+        console.log(abs(a));
+        console.log(abs(b));
+        const c = -77;
+        console.log(abs(c));
+      </script>
+  </head>
+  <body>
+    <!-- 
+        프로그래밍 : 생산성 -> 재사용
+        재사용 하기 쉬운 코드가 잘짠 코드
+        divid and conquer
+        분할하여 지배하라
+        최소단위 분할
+     -->
+  </body>
+</html>
