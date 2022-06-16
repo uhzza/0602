@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <button onclick="e1();">1</button>
+    <button id="e2">2</button>
+    <button id="e3">3</button>
+    <button id="e4">4</button>
+    <button id="e5">5</button>
+
+
+
+    <script>
+        function e1() {
+            alert('html 이용한 함수');
+        };
+
+        document.querySelector('#e2').onclick = function() {
+            alert('dom level 0 event');
+        };
+        
+        document.querySelector('#e3').addEventListener('click',function(){
+            alert('dom level 2 event');
+        });
+
+
+        $('#e4').click(function(){
+            alert('제이쿼리  메소드');
+        });
+
+        $('#e5').on('click',function(){
+            alert('제이쿼리 on 메소드');
+        });
+
+        
+    </script>
+</body>
+</html>

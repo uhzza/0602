@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        #page {
+            width: 400px;
+            margin: 0 auto;
+        }
+        #canvas {
+            height: 400px;
+            background-color: red;
+        }
+        #position{
+            height: 50px;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            //window.onload 와 마찬가지. 좀더 융통성있다.
+            // 예를 들어 document.ready 는 여러개를 사용해도 모두 동작
+            $('#canvas').mousemove(function(e){
+                // jQuery 는 이벤트의 이름이 이벤트를 담당하는 함수
+                // jQuery 는 mousemove 가 언제 발생할지는 알지만 뭘해야 할지 모른다 .
+                // 나는 뭘 할지 아는데 mousemove 가 언제 생기는지 몰라 알수가없어 
+                // 내가 함수를 만들어서 jQuery에 등록한다
+                // 이벤트 핸들러는 프로그래머가 만들고 js 가 위탁 실행한다 (callback)
+
+            $('#position').text(`x좌표 : ${e.pageX}, y좌표 : ${e.pageY}`);     
+
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="page">
+        <div id="canvas">
+
+        </div>
+        <div id="position">
+
+        </div>
+    </div>
+</body>
+</html>

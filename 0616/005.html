@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- event -->
+    <p>gui 환경에서는 사용자가 프로그램을 통제한다</p>
+    <p>사용자가 동작(이벤트)하면 거기에 프로그램이 반응한다.</p>
+    click , change , load , done
+    <!-- event handler -->
+    <p>이벤트가 발생하면 동작할 함수</p>
+    <p>
+      이벤트 핸들러는 프로그래머가 작성하고 시스템에 등록하면 시스템이
+      실행해준다.
+    </p>
+    <!-- callback -->
+    <p id="target">위탁해서 실행하는 함수</p>
+
+    <script>
+      // event hendler를 등록하는 방법 - dom level 0 event
+      // 1. html의 속성으로 button onclick=""
+      // 2. js에서 on속성으로
+
+      // event 객체  : 이벤트했을 때의 상태를 저장하는 객체
+      // 예를 들어 마우스 좌표 , control 키를 눌럿니 ? 쉬프트키 눌럿뉘?
+      // 이벤트 핸들러의 파라미터는 이벤트 객체다. 파라미터를 적으면 이벤트 객체다
+      
+      document.querySelector('#target').onclick = function(e) {
+        console.log(e);
+        console.log(e.pageX, e.pageY);
+      }
+    </script>
+  </body>
+</html>
