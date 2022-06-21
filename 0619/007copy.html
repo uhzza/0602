@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>★★★★★</title>
+    <script>
+    
+    
+    
+    async function callUrl() {
+        const url = 'http://sample.bmaster.kro.kr/contacts?pageno=1';
+        const result = await $.ajax(url);
+        return result;
+    }
+    function printUrl({contacts}) {
+        const $list = $('#list');
+        for (const c of data){
+        
+        const $tr = $('<tr>').appendTo($list);
+        $('<td>').text(c.name).appendTo($tr);
+        }
+    }
+
+
+    $(document).ready(async function(){
+        let data = await callUrl();
+        printUrl(data);
+    });
+         
+    </script>
+</head>
+<body>
+    <button id="print">출력</button>
+    <table>
+        <tbody id="list">
+
+        </tbody>
+    </table>
+</body>
+</html>

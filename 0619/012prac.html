@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+      }
+      #app {
+        border: 1px solid #222;
+        width: 1000px;
+      }
+      #box2 {
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
+    <title>Document</title>
+    <script>
+      async function getPosition(city, limit, key, positionUrl) {
+        const result = await $.ajax({
+          url: positionUrl,
+          data: { q: city, limit: limit, appid: key },
+          method: "get",
+          processData: true,
+        });
+        return { 위도: result[0].lat, 경도: result[0].lon };
+      }
+      async function getWeather(position, key, weatherUrl) {
+        const { 위도, 경도 } = position;
+        return await $.ajax({
+          url: weatherUrl,
+          data: { lat: 위도, lon: 경도, appid: key, units: "metric" },
+        });
+      }
+      async function getAir(positionLat, positionLon, key, airUrl) {
+        return await $.ajax({
+          url: airUrl,
+          data: { lat: positionLat, lon: positionLon, appid: key },
+        });
+      }
+      function printhome(positionLat, positionLon, temp, hum,maxTemp,minTemp,feelTemp,uvi,pm10,pm2_5,todaySunrise,todaySunset) {
+        $("<div>")
+          .text(`인천 (위도 : ${positionLat} 경도 : ${positionLon})`)
+          .appendTo("#box");
+        $("<div>").text(`온도 : ${temp} 습도 : ${hum}`).appendTo("#left");
+        $('<td>').text(`${maxTemp}`).appendTo('#maxTemp');
+        $('<td>').text(`${minTemp}`).appendTo('#minTemp');
+        $('<td>').text(`${feelTemp}`).appendTo('#feelTemp');
+        $('<td>').text(`${hum}`).appendTo('#hum');
+        $('<td>').text(`${todaySunrise}`).appendTo('#sunrise');
+        $('<td>').text(`${todaySunset}`).appendTo('#sunset');
+        $('<td>').text(`${pm10}`).appendTo('#pm10');
+        $('<td>').text(`${pm2_5}`).appendTo('#pm2_5');    
+      }
+      $(document).ready(async function () {
+        const key = "10fec2452bbb8ed84857270fc30ffae8";
+        const positionUrl = "https://api.openweathermap.org/geo/1.0/direct";
+        const airUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
+        const weatherUrl = "https://api.openweathermap.org/data/2.5/onecall";
+        const city = "Incheon";
+        const limit = 1;
+        const position = await getPosition(city, limit, key, positionUrl);
+        const positionLat = position.위도;
+        const positionLon = position.경도;
+        const air = await getAir(positionLat, positionLon, key, airUrl);
+        const weather = await getWeather(position, key, weatherUrl);
+        const pm10 = air.list[0].components.pm10;
+        const pm2_5 = air.list[0].components.pm2_5;
+        const temp = weather.current.temp;
+        const maxTemp = weather.daily[0].temp.max;
+        const minTemp = weather.daily[0].temp.min;
+        const feelTemp = weather.current.feels_like;
+        const hum = weather.current.humidity;
+        const uvi = weather.current.uvi;
+        const sunrise = new Date(weather.current.sunrise * 1000);
+        const sunset = new Date(weather.current.sunset * 1000);
+        const todaySunset = `${sunset.getHours()}시 ${sunset.getMinutes()}분`;
+        console.log(`${sunrise.getMonth() + 1}월 ${sunrise.getDate()}일`);
+        const todaySunrise = `${sunrise.getHours()}시 ${sunrise.getMinutes()}분`;
+        printhome(positionLat, positionLon, temp, hum,maxTemp,minTemp,feelTemp,uvi,pm10,pm2_5,todaySunrise,todaySunset);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Weather</h1>
+      <div class="btn-group" id="buttons">
+        <button type="button" class="btn btn-secondary">인천</button>
+        <button type="button" class="btn btn-secondary">서울</button>
+        <button type="button" class="btn btn-secondary">도쿄</button>
+        <button type="button" class="btn btn-secondary">뉴욕</button>
+      </div>
+      <div id="box"></div>
+      <div id="box2">
+        <div id="left"></div>
+        <div>
+          <table>
+            <tbody id="card">
+                <tr>
+                    <td>최고온도</td><td id="maxTemp"></td>
+                    <td>최저온도</td><td id="minTemp"></td>
+                    <td>체감온도</td><td id="feelTemp"></td>
+                    <td>습도</td><td id="hum"></td>
+                </tr>
+                <tr>
+                    <td>일출</td><td id="sunrise"></td>
+                    <td>일몰</td><td id="sunset"></td>
+                    <td>미세</td><td id="pm10"></td>
+                    <td>초미세</td><td id="pm2_5"></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

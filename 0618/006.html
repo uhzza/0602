@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #card {
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+        "use strict"
+        const key = "10fec2452bbb8ed84857270fc30ffae8";
+        let coors = null;
+        function getFormatDate(date) {
+            return `${date.getMonth()+1}월 ${date.getDate()}일`;
+        } 
+
+        async function coor(){
+            const coorUrl = `http://api.openweathermap.org/geo/1.0/direct?q=Incheon&limit=5&appid=${key}`;
+            const coorobj = await $.ajax(coorUrl);
+            const lat = coorobj[0].lat;
+            const lon = coorobj[0].lon;
+            coors = {lat, lon};
+            $('<div>').text(`위도 : ${lat}, 경도 : ${lon}`).appendTo('#coord')
+        }
+        async function weather(){
+            const weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coors.lat}&lon=${coors.lon}&appid=${key}&units=metric`;
+            const weatherobj = await $.ajax(weatherUrl);
+            const temp = weatherobj.current.temp;
+            const maxTemp = weatherobj.daily[0].temp.max;
+            const minTemp = weatherobj.daily[0].temp.min;
+            const hum = weatherobj.current.humidity;
+            const uvi = weatherobj.current.uvi;
+            const state = weatherobj.daily[0].weather[0].main;
+            
+            $('<div>').text(`온도 : ${temp}`).appendTo('#today');
+            $('<div>').text(`최고온도 : ${maxTemp}`).appendTo('#today');
+            $('<div>').text(`최저온도 : ${minTemp}`).appendTo('#today');
+            $('<div>').text(`습도 : ${hum}`).appendTo('#today');
+            $('<div>').text(`자외선 : ${uvi}`).appendTo('#today');
+            $('<div>').text(`상태 : ${state}`).appendTo('#today');
+            for (let i=1; i<=7; i++) {
+               const sunrise = new Date(weatherobj.daily[i].sunrise*1000);
+               const dt = getFormatDate(sunrise);
+               const temp = weatherobj.daily[i].temp.day
+               $('<div>').attr('data-no',i).text(`${dt} 온도 : ${temp}`).appendTo('#yebo')
+            }
+        }
+        async function air(){
+            const airUrl = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${coors.lat}&lon=${coors.lon}&appid=${key}`;
+            const airobj = await $.ajax(airUrl);
+            const pm2_5 = airobj.list[0].components.pm2_5;
+            const pm10 = airobj.list[0].components.pm10;
+            $('<div>').text(`pm2.5 : ${pm2_5} pm10 : ${pm10}`).appendTo('#todayPM')
+            
+        }
+        $(document).ready(async function(){
+            await coor();
+            await weather();
+            await air();
+        })
+    </script>
+</head>
+<body>
+    <div id="all">
+        <h1>Weather</h1>
+        <div id="card">
+        <div id="coord">
+
+        </div>
+        <div id="today">
+        </div>
+        <div id="todayPM">
+
+        </div>
+    </div>
+        <div id="yebo">
+        </div>
+    </div>
+</body>
+</html>

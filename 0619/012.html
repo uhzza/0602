@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+    <script>
+        async function getPosition(city,limit,key,positionUrl) {
+            const result = await $.ajax({
+                url : positionUrl,
+                data : {q :city, limit :limit, appid :key},
+                method : 'get',
+                processData : true
+            });
+            return {위도 : result[0].lat, 경도 : result[0].lon};
+        };
+        async function getWeather(position, key, weatherUrl){
+            const {위도 , 경도} = position;
+            return await $.ajax({
+                url : weatherUrl, data : {lat: 위도, lon : 경도, appid : key , units : 'metric'}
+            })
+        }
+        async function getAir(positionLat,positionLon,key,airUrl){
+            return await $.ajax({
+                url : airUrl,
+                data : {lat :positionLat , lon :positionLon , appid :key}
+            });
+        };
+        $(document).ready(async function() {
+            const key = "10fec2452bbb8ed84857270fc30ffae8";
+            const positionUrl = 'https://api.openweathermap.org/geo/1.0/direct';
+            const airUrl = 'https://api.openweathermap.org/data/2.5/air_pollution';
+            const weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall';
+            const city = 'Incheon';
+            const limit = 1 ;
+            const position = await getPosition(city, limit, key, positionUrl);
+            const positionLat = position.위도;
+            const positionLon = position.경도;
+            const air = await getAir(positionLat,positionLon,key,airUrl);
+            const weather = await getWeather(position, key, weatherUrl);
+            const pm10 = air.list[0].components.pm10;
+            const pm2_5 = air.list[0].components.pm2_5;
+            const temp = weather.current.temp;
+            const uvi = weather.current.uvi;
+            console.log(`${data.getMonth()+1}월 ${data.getDate()}일`);
+            console.log(`${data.getHours()}시 ${data.getMinutes()}분`);
+            
+
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
