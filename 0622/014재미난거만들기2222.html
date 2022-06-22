@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>인서부 웨더</title>
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: #111;
+        color: azure;
+      }
+      #city {
+        font-size: x-large;
+      }
+      #weather span {
+        font-weight: bold;
+        
+      }
+    </style>
+    <script>
+      // 도시배열을 만들고 버튼으로 출력
+      // 도시 선택하면 위도와 경도를 얻어오기
+      // 날씨와 공기정보 얻어와서 객체생성 후 출력
+      const key = "10fec2452bbb8ed84857270fc30ffae8";
+      const positionUrl = "https://api.openweathermap.org/geo/1.0/direct";
+      const airUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
+      const weatherUrl = "https://api.openweathermap.org/data/2.5/onecall";
+      const limit = 1;
+      const cities = [
+        { name: "인천", code: "Incheon" },
+        { name: "서울", code: "Seoul" },
+        { name: "부산", code: "Busan" },
+      ];
+      let cno = 0;
+
+      function init() {
+        for (i = 0; i < cities.length; i++) {
+          $("<button>")
+            .attr("data-number", i)
+            .text(cities[i].name)
+            .appendTo("#buttons");
+        }
+      }
+      async function getAllData(
+        key,
+        positionUrl,
+        airUrl,
+        weatherUrl,
+        limit,
+        cno
+      ) {
+        const result = await $.ajax({
+          url: positionUrl,
+          data: { q: cities[cno].code, appid: key },
+        });
+        const lat = result[0].lat;
+        const lon = result[0].lon;
+        const result2 = await $.ajax({
+          url: airUrl,
+          data: {
+            lat: lat,
+            lon: lon,
+            appid: key,
+          },
+        });
+
+        const result3 = await $.ajax({
+          url: weatherUrl,
+          data: {
+            lat: lat,
+            lon: lon,
+            appid: key,
+            units: "metric",
+          },
+        });
+        const pm2_5 = result2.list[0].components.pm2_5;
+        const pm10 = result2.list[0].components.pm10;
+        const temp = result3.current.temp;
+        const humidity = result3.current.humidity;
+        const sunrise1 = new Date(result3.current.sunrise * 1000);
+        const sunset1 = new Date(result3.current.sunset * 1000);
+        const sunrise = `${sunrise1.getHours()}시 ${sunrise1.getMinutes()}분`;
+        const sunset = `${sunset1.getHours()}시 ${sunset1.getMinutes()}분`;
+        const uvi = result3.current.uvi;
+        const feels = result3.current.feels_like;
+
+        return {
+          lat,
+          lon,
+          pm2_5,
+          pm10,
+          temp,
+          humidity,
+          sunrise,
+          sunset,
+          uvi,
+          feels,
+        };
+      }
+      function Print(
+        temp,
+        humidity,
+        sunrise,
+        sunset,
+        uvi,
+        feels,
+        cities,
+        cno,
+        pm2_5,
+        pm10
+      ) {
+        $("#city").text(cities[cno].name);
+        $("#todayTemp").text(`${temp}도`);
+        $("#todayHum").text(`${humidity}%`);
+        $("#todaySunrise").text(sunrise);
+        $("#todaySunset").text(sunset);
+        $("#todayUvi").text(uvi);
+        $("#todayFeels").text(`${feels}도`);
+        $("#todayPm10").text(pm10);
+        $("#todayPm2_5").text(pm2_5);
+      }
+
+      $(document).ready(async function () {
+        const data = await getAllData(
+          key,
+          positionUrl,
+          airUrl,
+          weatherUrl,
+          limit,
+          cno
+        );
+        init();
+        Print(
+          data.temp,
+          data.humidity,
+          data.sunrise,
+          data.sunset,
+          data.uvi,
+          data.feels,
+          cities,
+          cno,
+          data.pm2_5,
+          data.pm10
+        );
+        $("button").click(async function () {
+          let cno = parseInt($(this).attr("data-number"));
+          const data = await getAllData(
+            key,
+            positionUrl,
+            airUrl,
+            weatherUrl,
+            limit,
+            cno
+          );
+          Print(
+            data.temp,
+            data.humidity,
+            data.sunrise,
+            data.sunset,
+            data.uvi,
+            data.feels,
+            cities,
+            cno,
+            data.pm2_5,
+            data.pm10
+          );
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="buttons"></div>
+    <div id="screen">
+      <div>
+        <span id="city"></span>
+      </div>
+      <div id="weather">
+        <div>
+          오늘의 온도 :
+          <span id="todayTemp"></span>
+        </div>
+        <div>
+          오늘의 습도 :
+          <span id="todayHum"></span>
+        </div>
+        <div>
+          오늘의 일출 :
+          <span id="todaySunrise"></span>
+        </div>
+        <div>
+          오늘의 일몰 :
+          <span id="todaySunset"></span>
+        </div>
+        <div>
+          오늘의 자외선 :
+          <span id="todayUvi"></span>
+        </div>
+        <div>
+          오늘의 체감온도 :
+          <span id="todayFeels"></span>
+        </div>
+        <div>
+          오늘의 미세먼지 :
+          <span id="todayPm10"></span>
+        </div>
+        <div>
+          오늘의 초세먼지 :
+          <span id="todayPm2_5"></span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

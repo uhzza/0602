@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>인서부 웨더</title>
+    <script>
+      // 도시배열을 만들고 버튼으로 출력
+      // 도시 선택하면 위도와 경도를 얻어오기
+      // 날씨와 공기정보 얻어와서 객체생성 후 출력
+      const cities = [
+        { name: "인천", code: "Incheon" },
+        { name: "서울", code: "Seoul" },
+        { name: "부산", code: "Busan" },
+      ];
+      let cno = 0;
+      function init() {
+        for (i of cities) {
+          $("<button>")
+            .attr("data-number", cno)
+            .text(i.name)
+            .appendTo("#buttons");
+          cno++;
+        }
+        
+      }
+      async function getPosition(positionUrl, key) {
+        const result = await $.ajax({
+          url : positionUrl,
+          data : {q : cities[0].code , appid : key}
+        })
+        return {lat : result[0].lat , lon : result[0].lon}
+      }
+      async function getAir(airUrl, key, lat, lon) {
+        const result = await $.ajax({
+          url : airUrl,
+          data : {
+            lat : lat,
+            lon : lon,
+            appid : key
+          }
+        })
+        return {pm2_5 : result.list[0].components.pm2_5, pm10 :result.list[0].components.pm10}
+
+      }
+      async function getWeather(weatherUrl, key , lat, lon){
+        const result = await $.ajax({
+          url : weatherUrl,
+          data : {
+            lat : lat,
+            lon : lon,
+            appid : key,
+            units : 'metric'
+          }
+        })
+        return {temp : result.current.temp , humidity : result.current.humidity, sunrise : new Date(result.current.sunrise*1000), sunset : new Date(result.current.sunset*1000),
+        uvi : result.current.uvi, feels : result.current.feels_like}
+      }
+      function firstPrint(temp,humidity,sunrise,sunset,uvi,feels,cities){
+        $('#city').text(cities[0].name);
+        $('#todayTemp').text(`${temp}도`);
+        $('#todayHum').text(`${humidity}%`);
+        $('#todaySunrise').text(sunrise);
+        $('#todaySunset').text(sunset);
+        $('#todayUvi').text(uvi);
+        $('#todayFeels').text(`${feels}도`);
+      }
+      function change(cno,temp,humidity,sunrise,sunset,uvi,feels,cities){
+        $('#city').text(cities[cno].name);
+        $('#todayTemp').text(`${temp}도`);
+        $('#todayHum').text(`${humidity}%`);
+        $('#todaySunrise').text(sunrise);
+        $('#todaySunset').text(sunset);
+        $('#todayUvi').text(uvi);
+        $('#todayFeels').text(`${feels}도`);
+      }
+      
+      $(document).ready(async function () {
+        const key = "10fec2452bbb8ed84857270fc30ffae8";
+        const positionUrl = "https://api.openweathermap.org/geo/1.0/direct";
+        const airUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
+        const weatherUrl = "https://api.openweathermap.org/data/2.5/onecall";
+        const limit = 1;
+       
+        const position =await getPosition(positionUrl, key,limit)
+        const lat = position.lat
+        const lon = position.lon
+        const air = await getAir(airUrl, key, lat, lon);
+        const pm2_5 = air.pm2_5;
+        const pm10 = air.pm10;
+        const weather = await getWeather(weatherUrl, key , lat, lon);
+        const temp = weather.temp;
+        const humidity = weather.humidity;
+        const sunrise = `${weather.sunrise.getHours()}시 ${weather.sunrise.getMinutes()}분`
+        const sunset = `${weather.sunset.getHours()}시 ${weather.sunset.getMinutes()}분`
+        const uvi = weather.uvi;
+        const feels = weather.feels;
+        init();
+        firstPrint(temp,humidity,sunrise,sunset,uvi,feels,cities)
+        $('button').click(function(){
+          let cno = $(this).attr('data-number');
+          change(cno,temp,humidity,sunrise,sunset,uvi,feels,cities)
+        })
+      });
+    </script>
+  </head> 
+  <body>
+    <div id="buttons"></div>
+    <div id="screen">
+      <div>
+        <span id="city"></span>
+      </div>
+      <div>
+        <span>오늘의 온도 : </span>
+        <span id="todayTemp"></span>
+      </div>
+      <div>
+        <span>오늘의 습도 : </span>
+        <span id="todayHum"></span>
+      </div>
+      <div>
+        <span>오늘의 일출 : </span>
+        <span id="todaySunrise"></span>
+      </div>
+      <div>
+        <span>오늘의 일몰 : </span>
+        <span id="todaySunset"></span>
+      </div>
+      <div>
+        <span>오늘의 자외선 : </span>
+        <span id="todayUvi"></span>
+      </div>
+      <div>
+        <span>오늘의 체감온도 : </span>
+        <span id="todayFeels"></span>
+      </div>
+    </div>
+  </body>
+</html>
