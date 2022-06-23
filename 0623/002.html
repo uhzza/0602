@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+  </head>
+  <script>
+    const cities = [
+        { name: "인천", code: "Incheon" },
+        { name: "도쿄", code: "Tokyo" },
+        { name: "하노이", code: "Ha Noi" },
+        { name: "방콕", code: "Bangkok" },
+      ];
+      const key = "10fec2452bbb8ed84857270fc30ffae8";
+      const positionUrl = "https://api.openweathermap.org/geo/1.0/direct";
+      const airUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
+      const weatherUrl = "https://api.openweathermap.org/data/2.5/onecall";
+      const limit = 1;
+    function init(cities) {
+        cities.forEach((i,no)=>$('<button>').text(i.name).attr('data-no',no).appendTo('#buttons'))
+            $('<div>').text(cities[0].name).appendTo('#weather')
+    }
+    function weatherPrint(cno) {
+        $('#weather').text(`${cities[cno].name}`);
+    }
+    async function getData(cno){
+        const result = await $.ajax({
+            url : positionUrl,
+            data : {q : cities[cno].code, appid : key , limit : limit}
+        });
+        const lat = result[0].lat
+        const lon = result[0].lon
+        const result2 = await $.ajax({
+            url : airUrl,
+            data : {
+                lat: lat,
+                lon: lon,
+                appid: key
+            }
+        })
+        const pm2_5 = result2.list[0].components.pm2_5;
+        const pm10 = result2.list[0].components.pm10;
+        const result3 = await $.ajax({
+            url : weatherUrl,
+            data : {
+                lat: lat,
+                lon: lon,
+                appid: key,
+                units: "metric"
+            }
+        })
+        return {result, result2, result3}
+    }
+    $(document).ready(function () {
+      init(cities);
+    $('#buttons button').click(async function(){
+        //함수에서 this 는 window
+        //메소드 ( 객체소속 함수)에서 this 는 객체
+        //이벤트 핸들러에서 this 는 이벤트가 발생한 html 요소
+        //화살표 함수의 this 는 window 다.
+        let cno = parseInt($(this).attr('data-no'));
+        const data = await getData(cno)
+        weatherPrint(cno)
+        console.log(data)
+    })
+    });
+  </script>
+  <body>
+    <div>
+      <div id="weather"></div>
+      <div id="buttons"></div>
+    </div>
+  </body>
+</html>

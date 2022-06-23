@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+    <script>
+        const init=(cities)=>{
+      const $app = $('#buttons')
+      cities.forEach((city, index)=>$('<button>').text(city.name).attr('data-cno', index).appendTo($app));
+    }
+    $(document).ready(()=>{
+        const cities = [
+      {name:'서울', code:'Seoul'}, {name:'부산', code:'Busan'}, {name:'인천', code:'Incheon'}, {name:'대구', code:'Daegu'}
+    ];
+    let cno = 2;
+
+    init(cities);
+    $('button').click(function() {
+        cno = parseInt($(this).attr('data-cno'));
+        console.log(`${cities[cno].name}을 선택했습니다`);
+      })
+    })
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div id="weather"></div>
+        <div id="buttons"></div>
+      </div>
+</body>
+</html>

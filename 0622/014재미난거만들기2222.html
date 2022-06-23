@@ -22,7 +22,6 @@
       }
       #weather span {
         font-weight: bold;
-        
       }
     </style>
     <script>
@@ -59,7 +58,7 @@
       ) {
         const result = await $.ajax({
           url: positionUrl,
-          data: { q: cities[cno].code, appid: key },
+          data: { q: cities[cno].code, appid: key ,limit : limit,},
         });
         const lat = result[0].lat;
         const lon = result[0].lon;
@@ -151,6 +150,7 @@
           data.pm10
         );
         $("button").click(async function () {
+          
           let cno = parseInt($(this).attr("data-number"));
           const data = await getAllData(
             key,

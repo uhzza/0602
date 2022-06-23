@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/807f40644c.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
+        .safe { color: green; font-weight: bold;}
+        .common { color:  gray; font-weight: bold;}
+        .warn { color: red; font-weight: bold;}
+        
+    </style>
+</head>
+<script>
+    $(document).ready(async()=>{
+        const cities = [
+            { name: "인천", code: "Incheon" },
+            { name: "도쿄", code: "Tokyo" },
+            { name: "하노이", code: "Ha Noi" },
+            { name: "방콕", code: "Bangkok" },
+            { name: "부산", code: "Busan"}
+            ];
+            let cno = 0;
+            const key = "10fec2452bbb8ed84857270fc30ffae8";
+            const positionUrl = "https://api.openweathermap.org/geo/1.0/direct";
+            const airUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
+            const weatherUrl = "https://api.openweathermap.org/data/2.5/onecall";
+            init(cities)
+            let data = await getData(cities, key, positionUrl,airUrl,weatherUrl,cno)
+            print(cities,cno,data)
+            $('#buttons button').click(async  function(){
+                let cno = $(this).attr('data-no')
+                let data = await getData(cities, key, positionUrl,airUrl,weatherUrl,cno)
+            print(cities,cno,data)
+            })
+    })
+    init=(cities)=>{
+        cities.forEach((city,i)=>{
+            $('<button>').text(city.name).attr('data-no',i).appendTo('#buttons')
+        })       
+    }
+    getData=async(cities, key, positionUrl,airUrl,weatherUrl,cno)=>{
+        const result = await $.ajax({
+            url : positionUrl,
+            data : {
+                q : cities[cno].code,
+                appid : key
+            }
+        })
+        let lat = result[0].lat
+        let lon = result[0].lon
+        const result2 = await $.ajax({
+            url : airUrl,
+            data : {
+                lat : lat,
+                lon : lon,
+                appid : key
+            }
+        })
+        const result3 = await $.ajax({
+            url : weatherUrl,
+            data : {
+                lat : lat,
+                lon : lon,
+                appid : key,
+                units : 'metric'
+            }
+        })
+        let pm2_5 = result2.list[0].components.pm2_5
+        let pm10 = result2.list[0].components.pm10
+        let temp = result3.current.temp
+        let uvi = result3.current.uvi
+        let feels = result3.current.feels_like
+        let humidity = result3.current.humidity
+        let main = result3.current.weather[0].main
+        let sunrise = `${(new Date(result3.current.sunrise*1000)).getHours()}시 ${(new Date(result3.current.sunrise*1000)).getMinutes()}분`
+        let sunset = `${(new Date(result3.current.sunset*1000)).getHours()}시 ${(new Date(result3.current.sunset*1000)).getMinutes()}분`
+        let daily = result3.daily
+        return {lat, lon , pm2_5, pm10 , temp , uvi , feels, humidity, main, sunrise, sunset, daily}
+    }
+    print=(cities,cno,data)=>{
+            $('#cards').text(`${cities[cno].name}(위도 : ${data.lat}, 경도 : ${data.lon})`)
+            const $cards = $('#cards')
+            const $icon = $('<div>').appendTo($cards)
+                if (data.main === 'Rain') {
+                    $($icon).append('<i class="fa-solid fa-umbrella"></i>')
+                } else if (data.main === 'Clouds') {
+                    $($icon).append('<i class="fa-solid fa-cloud"></i>')
+                } else if (data.main === 'Mist') {
+                    $($icon).append('<i class="fa-solid fa-water"></i>')
+                } else {
+                    $($icon).text(`${data.main} 이미지준비중`)
+                }
+            const $temp = $('<div>').text(`온도 : ${data.temp}`).appendTo($cards)
+            const $uvi = $('<div>').text(`자외선 : ${data.uvi}`).appendTo($cards)
+                if (data.uvi < 3) {
+                    ($uvi).attr('class','safe')
+                } else if (data.uvi < 6) {
+                    ($uvi).attr('class','common')
+                } else {
+                    ($uvi).attr('class','warn')
+                }
+            const $pm = $('<div>').text(`미세먼지 : ${data.pm10}`).appendTo($cards)
+                if (data.pm10 < 30) {
+                    ($pm).attr('class','safe')
+                } else if (data.pm10 < 80) {
+                    ($pm).attr('class','common')
+                } else {
+                    ($pm).attr('class','warn')
+                }
+    }
+</script>
+<body>
+    <div id="app">
+        <div id="cards">
+        </div>
+        <div id="buttons"></div>
+    </div>
+</body>
+</html>
