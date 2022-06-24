@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+      height: 100vh;
+      background-color: #ddd;
+    }
+
+    #app {
+      width: 600px;
+      margin: 0 auto;
+      background-color: #eee;
+      border: 1px solid darkblue;
+    }
+
+    #input {
+      width: 530px;
+    }
+
+    .title {
+      display: inline-block;
+      width:400px;
+    }
+
+    .done {
+      text-decoration: line-through;}
+    </style>
+    <script>
+        $(document).ready(()=>{
+            const todolist = [
+                { todo : '붕장어', done : true},
+                { todo : '쭈꾸미', done : false},
+                { todo : '갈치', done : false},
+                { todo : '방어', done : false}
+            ]
+            printTodo(todolist)
+            
+            $('#button').click(()=>{
+                todolist.push({todo : $('#input').val(), done : false})
+                printTodo(todolist)
+                
+                
+            })
+            $('#input').keyup((e)=>{
+                if(e.keyCode === 13){
+                    todolist.push({todo : $('#input').val(), done : false})
+                    printTodo(todolist)
+                }
+            })
+            $('#ul').on('click','.title' , function(){
+                
+                todolist[$(this).attr('data-no')].done = !todolist[$(this).attr('data-no')].done
+                printTodo(todolist)
+            })
+            $('#ul').on('click','.close',function(){
+                console.log($(this).attr('data-no'))
+                todolist.splice($(this).attr('data-no'),1)
+                printTodo(todolist)
+                
+            })
+        })
+        printTodo=(todolist)=>{
+            $('#ul').empty()
+            todolist.forEach((todo, i)=>{
+                const $li =  $('<li>').attr('data-no',i).appendTo('#ul')
+                    if(todo.done === false) {
+                    $('<span>').attr('data-no',i).addClass('title').text(todo.todo).appendTo($li)
+                    } else {
+                        $('<span>').attr('data-no',i).addClass('title').addClass('done').text(todo.todo).appendTo($li)
+                    }
+                    $('<span>').addClass('close').attr('data-no',i).text('X').appendTo($li)
+            })    
+        }
+
+    </script>
+</head>
+<body>
+    <div id="app">
+    <input type="text" id="input" placeholder="입력 후 엔터이시캬">
+    <button id="button">저장</button>
+    <ul id="ul">
+    </ul>
+</div>
+</body>
+</html>

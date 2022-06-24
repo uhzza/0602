@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body {
+      height: 100vh;
+      background-color: #ddd;
+    }
+
+    #app {
+      width: 600px;
+      margin: 0 auto;
+      background-color: #eee;
+      border: 1px solid darkblue;
+    }
+
+    #input {
+      width: 530px;
+    }
+
+    .title {
+      display: inline-block;
+      width:400px;
+    }
+
+    .done {
+      color: red;
+    }
+</style>
+<script>
+    $(document).ready(()=>{
+        const todolist = [
+            {name : '돌돔', done : true},
+            {name : '감성돔', done : false},
+            {name : '참돔', done : false},
+            {name : '벵에돔', done : false}
+        ]
+        printlist(todolist)
+        $('#input').keyup((e)=>{
+            if(e.keyCode === 13){
+                todolist.push({name : $('#input').val(), done : false})
+                $('#input').val('')
+                printlist(todolist)
+            }
+        })
+        $('#button').click(()=>{
+            todolist.push({name : $('#input').val(), done : false})
+            $('#input').val('')
+                printlist(todolist)
+        })
+        $('#list').on('click','.title' ,function(){
+            todolist[$(this).attr('data-no')].done = ! todolist[$(this).attr('data-no')].done
+            printlist(todolist)
+        })
+        $('#list').on('click','.close' ,function(){
+            todolist.splice($(this).attr('data-no'),1)
+            printlist(todolist)
+        })
+    })
+    printlist=(todolist)=>{
+        $('#list').empty()
+        const $ul = $('#list');
+            todolist.forEach((todo, i)=>{
+                const $li = $('<li>').attr('data-no',i).appendTo($ul);
+                    if (todo.done === false) {
+                        $('<span>').addClass('title').attr('data-no',i).text(todo.name).appendTo($li)
+                    } else {
+                        $('<span>').addClass('title').addClass('done').attr('data-no',i).text(`${todo.name}(완료)`).appendTo($li)
+                    }
+                $('<span>').addClass('close').attr('data-no',i).text('X').appendTo($li)
+            })
+    }
+</script>
+<body>
+    <div id="app">
+        <h1>Todo List</h1>
+        <input type="text" id="input" placeholder="입력 후 엔터 ㄱㄱ">
+        <button id="button">Click</button>
+        <ul id="list">
+
+        </ul>
+    </div>
+</body>
+</html>

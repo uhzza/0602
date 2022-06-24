@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body {
+      height: 100vh;
+      background-color: #ddd;
+    }
+
+    #app {
+      width: 600px;
+      margin: 0 auto;
+      background-color: #eee;
+      border: 1px solid darkblue;
+    }
+
+    #input {
+      width: 530px;
+    }
+
+    .title {
+      display: inline-block;
+      width:400px;
+    }
+
+    .done {
+      text-decoration: line-through;
+    }
+</style>
+<script>
+    $(document).ready(()=>{
+        const todos = [
+        { title : "영화보기", done:false },
+        { title : "주말 산책", done:true },
+        { title : "ES6 학습", done:false },
+        { title : "잠실 야구장", done:false }
+      ];
+      printTodolist(todos);
+      //버튼클릭
+      $('#add').click(()=>{
+        addTodo(todos)
+      })
+      //엔터
+      $('#input').keyup((e)=>{
+        if(e.keyCode==13){
+            addTodo(todos)
+        }
+      })
+      //내용 클릭
+      $('#todos').on('click','.title',function(){
+        todos[$(this).attr('data-index')].done = !todos[$(this).attr('data-index')].done;
+        printTodolist(todos);
+      })
+      //클로즈 클릭
+      $('#todos').on('click','.close',function() {
+        todos.splice($(this).attr("data-index"), 1);
+        printTodolist(todos);
+      })
+      
+    })
+    printTodolist=(todos)=>{
+        $('#todos').empty();
+        todos.forEach((todo,index)=>{
+            const $li = $('<li>').attr('data-index',index).attr('class','todo').appendTo('#todos');
+                if (todo.done===true){
+                    $("<span class='title'>").attr('data-index',index).addClass('done').text(todo.title + "(완료)").appendTo($li)
+                } else {
+                    $("<span class='title'>").attr('data-index',index).text(todo.title).appendTo($li);
+                }
+                $("<span>").attr("class", "close").text("X").appendTo($li);
+            
+        })
+        };
+    addTodo=(todos)=>{
+        todos.push({title : $('input').val(), done : false})
+        printTodolist(todos)
+    }
+    todoClick=()=>{
+
+    }
+</script>
+<body>
+    <div id="app">
+        <input type="text" id="input" placeholder="입력 후 엔터!">
+        <button id="add">추가</button>
+        <ul id="todos">
+        </ul>
+</body>
+</html>
