@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+      height: 100vh;
+      background-color: #ddd;
+    }
+
+    #app {
+      width: 600px;
+      margin: 0 auto;
+      background-color: #eee;
+      border: 1px solid darkblue;
+    }
+
+    #input {
+      width: 530px;
+    }
+
+    .title {
+      display: inline-block;
+      width:500px;
+    }
+
+    .done {
+      color: red;
+    }
+    </style>
+    <script>
+        $(document).ready(()=>{
+            const fish = [
+                {name : '돌돔', done : false},
+                {name : '참돔', done : false},
+                {name : '벵에돔', done : false},
+                {name : '감성돔', done : false},
+                {name : '돔돔돔돔돔돔', done : true}
+            ]
+            printfish(fish);
+            $('#add').click(()=>{
+                fish.push({name : $('#input').val(), done : false})
+                $('#input').val('');
+                printfish(fish);
+            })
+            $('#input').keyup((e)=>{
+                if(e.keyCode === 13) {
+                fish.push({name : $('#input').val(), done : false})
+                $('#input').val('');
+                printfish(fish);
+                }
+            })
+            $('#add').hover(()=>{
+                fish.push({name : $('#input').val(), done : false})
+                printfish(fish);
+            })
+            $('#todos').on('click','.title',function(){
+                fish[$(this).attr('data-no')].done = !fish[$(this).attr('data-no')].done
+                printfish(fish)
+            })
+            $('#todos').on('click','.close', function(){
+                
+                fish.splice($(this).attr('data-no'),1)
+                printfish(fish)
+            })
+        })
+        printfish=(fish)=>{
+            $('#todos').empty()
+            const $ul = $('#todos');
+            fish.forEach((fish, i)=>{
+                const $li = $('<li>').attr('data-no', i).appendTo($ul)
+                    if(fish.done === false) {
+                    $('<span>').addClass('title').attr('data-no', i).text(fish.name).appendTo($li);
+                    } else {
+                        $('<span>').addClass('done').addClass('title').attr('data-no', i).text(`${fish.name} 잡앗당`).appendTo($li);
+                    }
+                $('<span>').attr('data-no', i).addClass('close').text('X').appendTo($li);
+            })
+            
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <h1>Fish list</h1>
+        <input type="text" id="input" placeholder="입력 후 엔터!" autofocus>
+        <button id="add">추가</button>
+        <ul id="todos">
+        </ul>
+      </div>
+</body>
+</html>
