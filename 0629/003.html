@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>요쳥과 응답</title>
+    <script>
+        $('#login').click(function(){
+            // 폼을 직접 보내지 않고 js 로 검증 후 summit
+            $('#loginform').summit();
+        })
+
+        // 폼을 이용해 ajax를 보낸다면 
+        $('#login').click(function(){
+            $.ajax({
+                url : '서버주소',
+                data : $('#loginForm').serialize()
+            })
+        })
+    </script>
+</head>
+<body>
+    <div>
+        <form id="loginform" action="http://www.naver.com" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="file" name="profile">
+            <input type="text" id="username" value="spring" name="username">
+            <input type="password" id="password" value="1234" name="password">
+            <button type="button" id="login">login</button>
+        </form>
+    </div>
+</body>
+</html>

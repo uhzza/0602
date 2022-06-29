@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <script>
+        // REST 는 화면에 데이터를 저장할 수있따 . 이동하면 모든것은 처음부터 
+        // list.html?page=3 형식으로 페이지 번호를 읽어오자
+        // list.html 로 실행하면 page는 1로 하자
+        function getPage() {
+            let pageno = parseInt(location.search.substr(6));
+            if(isNaN(pageno)=== true)
+            return 1;
+            return pageno;
+        }
+        getPage()
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

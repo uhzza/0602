@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<script>
+    $(document).ready(async ()=>{
+        const api = 'http://sample.bmaster.kro.kr/contacts/';
+        const no = getnumber();
+        const response = await getResponse(api, no);
+            console.log(response)
+        printResponse(response, no);
+    })
+    getnumber=()=>{
+        const listno = location.search.substr(4)
+        return listno
+    }
+    const getResponse=async(api, no)=>{
+            return await $.ajax(`${api}${no}`)
+    }
+    const printResponse=(resp, no)=>{
+        const $div = $('#target');
+        $('<img>').attr('src',`${resp.photo}`).appendTo($div);
+    }
+</script>
+<body>
+    <div>
+        <h1 id="name">바보</h1>
+        <div id="target"></div>
+        
+    </div>
+</body>
+</html>
