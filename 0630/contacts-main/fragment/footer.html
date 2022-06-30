@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <script>
+     $(document).ready(async()=>{
+        $('#delete').click(async(e)=>{
+            e.preventDefault();
+            const pagesize = 10;
+            const api = 'http://sample.bmaster.kro.kr/contacts';
+            const page = getPage();
+        const response = await getResponse(api, page, pagesize);
+            const no = response.contacts[0].no
+
+            const url = `http://sample.bmaster.kro.kr/contacts/${no}`
+            const deletes = await $.ajax({
+                url : url,
+                method : 'delete'
+            })
+            console.log('삭제성공!');
+        })
+    })
+
+    function getPage() {
+        let page = parseInt(location.search.substr(6));
+        if(isNaN(page)==true)
+          return 1;
+        return page;
+      }
+
+      async function getResponse(api, pageno, pagesize) {
+        const params = {pageno, pagesize};
+        return await $.ajax({url: api, data: params });
+      }
+  </script>
+  <body>
+    <button><a href="/0630/contacts-main/write.html">글쓰기</a></button>
+    <button id="delete">삭제</button>
+  </body>
+</html>

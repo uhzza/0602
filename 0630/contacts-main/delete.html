@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<script>
+    $(document).ready(async()=>{
+        $('#delete').click(async(e)=>{
+            e.preventDefault();
+            const no = $('#no').val()
+            
+            const url = `http://sample.bmaster.kro.kr/contacts/${no}`
+            const response = await $.ajax({
+                url : url,
+                method : 'delete'
+            })
+            alert('삭제성공!');
+        })
+    })
+</script>
+<body>
+        글번호 : <input type="text" id="no" name="no">
+        <button id="delete">삭제</button>
+
+</body>
+</html>

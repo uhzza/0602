@@ -68,7 +68,6 @@
             const pagesize = 10;
             const api = 'http://sample.bmaster.kro.kr/contacts';
             const page = getPage();
-            console.log(page)
             const response =await getResponse(api, page, pagesize);
             printContacts(response);
             const pagination = getPagination(response);
