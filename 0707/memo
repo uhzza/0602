@@ -1,0 +1,18 @@
+FormData js 객체를 만드는 방법
+1. const formData = new FormData(document.querySElector('#write_form'))
+2. 비어있는 폼을 만들고 하나씩 추가
+    const formData = new FormData();
+    formData.append('title',$('#title').val());
+
+백이 mvc 면 form 을 submit 하자
+    근데 jQuery 로 검증하고 싶은데 ??? $('폼아이디').submit()
+
+백이 REST 면 $ajax
+
+    파일을 포함한 경우
+    new FormData(document.querySElector('#write_form'))
+    new FormData($('#write_form')[0])
+
+    urlencoded 로 넘길 경우
+
+    $('#폼아이디').serialize();

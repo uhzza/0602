@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+    <script>
+        $(document).ready(async()=>{
+            const pageno = getpageno();
+            const list =await getList(pageno);
+            printList(list.boardList);
+            const pagination = getPagination(list);
+            printPagination(pagination);
+
+        })
+        getpageno = () => {
+            let no = parseInt(location.search.substr(8));
+                if (isNaN(no) === true) {
+                    return 1 
+                } else {
+                    return no
+                }
+        }
+        getList = async (pageno) => {
+            const url = 'http://192.168.0.34:8081/board/all';
+            return await $.ajax({
+                url : url ,
+                data : {
+                    pageno : pageno
+                }
+            });
+        }
+        printList = (list) => {
+            const $li = $('#tbody');
+             list.forEach((r)=>{
+                const $tr = $('<tr>').appendTo($li);
+                    $('<td>').text(r.bno).appendTo($tr);
+                    const $td = $('<td>').appendTo($tr);
+                        $(`<a href="/0707prac/read.html?bno=${r.bno}">`).text(r.title).appendTo($td);
+                    $('<td>').text(r.writer).appendTo($tr);
+                    $('<td>').text(r.readCnt).appendTo($tr);
+                    $('<td>').text(r.writeTime).appendTo($tr);
+             })
+        }
+        getPagination = ({pageno, pagesize, totalcount ,boxsize = 5 }) => {
+            const pageCnt = Math.ceil(totalcount/pagesize);
+            const prev = Math.floor((pageno-1)/boxsize)*boxsize;
+            const start = prev + 1 ;
+            let end = prev + 5 ;
+            let next = end + 1 ;
+            if(end >= pageCnt) {
+                end = pageCnt, next = 0 ;
+            }
+            return {pageno, prev, start, end, next , pageCnt}
+        }
+        printPagination = ({pageno, prev, start, end , next, pageCnt}) => {
+            const $ul = $('#pagination');
+                if (prev > 0 ) {
+                    const $li = $('<li>').addClass('page-item').appendTo($ul);
+                        $(`<a href="/0707prac/list.html?pageno=${prev}" class="page-link">`).text('이전').appendTo($li);
+                }
+                for ( i = start ; i <= end ; i++ ) {
+                    const $li = $('<li>').addClass('page-item').appendTo($ul);
+                        $(`<a href="/0707prac/list.html?pageno=${i}" class="page-link">`).text(i).appendTo($li);
+                            if(pageno === i) {
+                                $($li).addClass('active');
+                            }
+                }
+                if (next > 0 ) {
+                    const $li = $('<li>').addClass('page-item').appendTo($ul);
+                        $(`<a href="/0707prac/list.html?pageno=${next}" class="page-link">`).text('다음').appendTo($li);
+                }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <section>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>글쓴이</th>
+                        <th>조회수</th>
+                        <th>시간</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+            <ul class="pagination" id="pagination">
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

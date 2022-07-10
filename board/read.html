@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/board/script/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/board/css/style.css">
+    <title>read</title>
+    <script>
+        $(document).ready(async()=>{
+            init();
+            const bno = getbno();
+            const result =await getResult(bno);
+            printResult(result);
+        })
+        getbno=()=>{
+            return no = location.search.substr(5);
+        }
+        getResult=async(bno)=>{
+            try {
+                return await $.ajax(`http://192.168.0.34:8081/board/${bno}`);
+            } catch(e) {
+                location = '/board/error.html'
+            }
+        }
+        printResult=({bno, title, readCnt, writeTime, attachment, content})=>{
+            const $target = $('#target');
+                $('<div>').text(`번호 : ${bno}`).appendTo($target);
+                $('<div>').text(`제목 : ${title}`).appendTo($target);
+                $('<div>').text(`읽기 : ${readCnt}`).appendTo($target);
+                $('<div>').text(`작성시간 : ${writeTime}`).appendTo($target);
+                const $div = $('<div>').appendTo($target);
+                    $('<img>').attr('src', attachment).appendTo($div);
+                $('<div>').text(content).appendTo($target);
+        }
+    </script>
+</head>
+<body>
+    <div id="page">
+        <header></header>
+        <nav></nav>
+        <div id="main">
+          <aside></aside>
+          <section>
+              <div id="target">
+
+              </div>
+          </section>
+        </div>
+        <footer></footer>
+      </div>
+</body>
+</html>
